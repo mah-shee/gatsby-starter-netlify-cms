@@ -26,6 +26,7 @@ export const BlogPostTemplate = ({
               {title}
             </h1>
             <p>{description}</p>
+            <img {post.frontmatter.images} />
             <PostContent content={content} />
             {tags && tags.length ? (
               <div style={{ marginTop: `4rem` }}>
@@ -53,6 +54,22 @@ BlogPostTemplate.propTypes = {
   title: PropTypes.string,
   helmet: PropTypes.object,
 }
+
+const Meta = ({ post }) => {
+  const origin = 'https://sad-darwin-00265d.netlify.com';
+
+  return (
+    <Helmet
+      title={`${post.frontmatter.title} | Blog`}
+      meta={[
+        { name: 'description', content: post.frontmatter.description },
+        { property: 'og:title', content: post.frontmatter.title },
+        { property: 'og:description', content: post.frontmatter.description },
+        { property: 'og:image', content: `${origin}${post.frontmatter.image}` },
+      ]}
+    />
+  );
+};
 
 const BlogPost = ({ data }) => {
   const { markdownRemark: post } = data
